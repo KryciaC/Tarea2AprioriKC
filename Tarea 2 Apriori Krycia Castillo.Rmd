@@ -1,0 +1,49 @@
+#Tarea #2 Apriori
+Krycia Castillo
+
+```{r}
+install.packages("arules")
+library(arules)
+library(ggplot2)
+install.packages("dplyr")
+library(dplyr)
+
+```
+
+```{r}
+#Se procedió a cargar el dataset Persona a R:
+dataP <- read.csv("C:\\Users\\lmpgp\\Downloads\\Kry\\db_csv_\\PERSONA_BDP.csv", sep=",")
+
+dataP
+
+#Se eliminan las columnas PEA, PEI, POCUPA, Long y Lat debido a que solo incluyen un valor que se repite y que no aportan valor al análisis:
+dataP2 <- dataP[, !(names(dataP) %in% c("PEA", "PEI","POCUPA", "Long", "Lat"))]
+
+#Se aplica el algoritmo apriori a todo el set de datos:
+reglas <- apriori(dataP2, parameter = list(support=0.2, confidence=0.5 ))
+reglasframeP <- as(reglas, "data.frame")
+
+#se inspeccionan las reglas obtenidas:
+inspect(reglas[100:200])
+inspect(reglas[200:300])
+inspect(reglas[300:400])
+inspect(reglas[400:500])
+```
+
+```{r}
+#Luego de revisar el dataset en el inciso anterior se procedió a enfocarnos en las columnas que se obserban a continuación, se han observado reglas que se relacionan con el nivel de estudios, idiomas que habla la persona y el grupo étnico con el cual se identifican:
+
+dataP3 <- dataP %>%
+  select(DEPARTAMENTO, MUNICIPIO, AREA, PCP5, PCP6, PCP7, PCP10_C, PCP12, PCP13, PCP14, PCP15, PCP17_A, PCP17_B, PCP18, PCP19, PCP20, PCP20_B, ESTUDIAGEO, PCP20_C, PCP21, PCP22, PCP23_A, PCP23_B, PCP23_C, PCP24, PCP25_A, PCP25_B, PCP25_C, PCP26_A, PCP26_B, PCP26_C, PCP30_2D, PCP30_1D, PCP31_D, PCP32_2D, PCP32_1D, PCP34, PCP35_A, PCP35_B, PCP35_C, PCP37, NIVGRADO, ANEDUCA)
+
+#Se aplica el algoritmo apriori
+
+reglas2 <- apriori(dataP3, parameter = list(support=0.2, confidence=0.5 ))
+
+reglasframeP3 <- as(reglas2, "data.frame")
+
+
+```
+
+
+
